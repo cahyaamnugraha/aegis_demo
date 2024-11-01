@@ -45,14 +45,14 @@ public class LaporanServiceImpl {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ResponseEntity<Resource> createLaporanTransaksi(String startTime, String endTime) {
-        String filePath = "../laporan/test1.xlsx";
+        String filePath = "./demo_aegis/laporan/test1.xlsx";
         String fileName = "test1";
 
         Date startDate = stringToDate(startTime, "yyyy-MM-dd HH:mm:ss");
         Date endDate = stringToDate(endTime, "yyyy-MM-dd HH:mm:ss");
 
 
-        List<Transaksi> transaksiList = transaksiRepository.findByRange(new java.sql.Timestamp(startDate.getTime()), new java.sql.Timestamp(endDate.getTime()));
+        List<Transaksi> transaksiList = transaksiRepository.findAll();
         if (!transaksiList.isEmpty()) {
             try {
                 Workbook workbook = new HSSFWorkbook();
@@ -90,7 +90,7 @@ public class LaporanServiceImpl {
 
 
                 // Write the workbook to a file
-                FileOutputStream outputStream = new FileOutputStream("../laporan/1.xlsx");
+                FileOutputStream outputStream = new FileOutputStream(filePath);
                 workbook.write(outputStream);
                 outputStream.close();
                 workbook.close();
